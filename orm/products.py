@@ -7,7 +7,7 @@ class Product(SqlAlchemyBase):
     __tablename__ = 'products'
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
-    user = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))  # id
+    user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
     name_product = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     user_name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     describe = sqlalchemy.Column(sqlalchemy.Text, nullable=True)
@@ -16,4 +16,4 @@ class Product(SqlAlchemyBase):
     size = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     price = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
 
-    user = orm.relation("User")
+    user = orm.relation('User')
