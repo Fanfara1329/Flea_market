@@ -8,7 +8,7 @@ app.config['SECRET_KEY'] = 'abobys'
 
 user2 = User()
 user2.id = 221133311331
-user2.name = "Полefьзовwffатель 1"
+user2.name = "Полedfsfьзовwffатель 1"
 user2.city = "qeewffwf"
 user2.password = "1wfwfwww2f"
 user2.cards = "12hwffwswwffeffjskjf"
