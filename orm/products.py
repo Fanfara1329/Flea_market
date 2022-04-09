@@ -7,13 +7,13 @@ class Product(SqlAlchemyBase):
     __tablename__ = 'products'
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
-    user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
+    ven_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
     name_product = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    user_name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     describe = sqlalchemy.Column(sqlalchemy.Text, nullable=True)
-    category = sqlalchemy.Column(sqlalchemy.Integer)
+    category_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("category.id"))
     photo = sqlalchemy.Column(sqlalchemy.BLOB, nullable=True)
     size = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    price = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
+    price = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)  # храним в копейках
 
     user = orm.relation('User')
+    cat = orm.relation('Category')

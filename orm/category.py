@@ -7,4 +7,4 @@ class Category(SqlAlchemyBase):
     __tablename__ = 'category'
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
-    user = sqlalchemy.Column(sqlalchemy.String)
+    name = sqlalchemy.Column(sqlalchemy.String)

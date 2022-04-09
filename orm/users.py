@@ -12,3 +12,4 @@ class User(SqlAlchemyBase):
     name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     cards = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     gender = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+
