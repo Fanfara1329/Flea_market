@@ -15,6 +15,7 @@
     <h1>Registration</h1>
     Enter your details
     <form class="login_form" method="post">
+        <input type="text" class="form-control" id="name" placeholder="Name" name="name">
         <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
                placeholder="E-mail" name="email">
         <input type="password" class="form-control" id="password" placeholder="Password" name="password">
@@ -26,15 +27,15 @@
         <div class="form-group">
             <label for="form-check">Gender</label>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="sex" id="male" value="male" checked>
+                <input class="form-check-input" type="radio" name="gender" id="male" value="male" checked>
                 <label class="form-check-label" for="male">
-                    Мужской
+                    Male
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="sex" id="female" value="female">
+                <input class="form-check-input" type="radio" name="gender" id="female" value="female">
                 <label class="form-check-label" for="female">
-                    Женский
+                    Female
                 </label>
             </div>
         </div>
