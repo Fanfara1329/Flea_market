@@ -15,12 +15,21 @@
         crossorigin="anonymous"></script>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-3" style="background: #00FF00">
+        <div class="col-1"></div>
+        <div class="col-3">
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="\woman">Женщины</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="\man">Мужчины</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-4" style="background: #FF0000">
 
         </div>
-        <div class="col-6" style="background: #FF0000">
-
-        </div>
+        <div class="col-1"></div>
         <div class="col-1">
             <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
                     aria-controls="offcanvasRight">Toggle right offcanvas
@@ -29,46 +38,29 @@
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
                  aria-labelledby="offcanvasRightLabel">
                 <div class="offcanvas-header">
-                    <h5 id="offcanvasRightLabel">Offcanvas right</h5>
                     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
                             aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body">
                     <div>
-                        <h1>Registration</h1>
-                        Enter your details
-                        <form class="login_form" method="post">
-                            <input type="text" class="form-control" id="name" placeholder="Name" name="name">
-                            <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
-                                   placeholder="E-mail" name="email">
-                            <input type="password" class="form-control" id="password" placeholder="Password"
-                                   name="password">
-                            <input type="password" class="form-control" id="check_password"
-                                   placeholder="Repeat password"
-                                   name="check_password">
-                            <input type="text" class="form-control" id="city" placeholder="City" name="city">
-                            <input type="text" class="form-control" id="cards" placeholder="Card" name="cards">
+                        <img src="/static/img/xe.png" width="318" height="180">
+                        <p>
+                        <h4>Войди в аккаунт или создай учетную запись</h4></p>
+                        <form>
+                            <div class="mb-3">
+                                <label for="exampleInputEmail1" class="form-label">Электронная почта</label>
+                                <input type="email" class="form-control" id="exampleInputEmail1"
+                                       aria-describedby="emailHelp">
 
-                            <div class="form-group">
-                                <label for="form-check">Gender</label>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="gender" id="male" value="male"
-                                           checked>
-                                    <label class="form-check-label" for="male">
-                                        Male
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="gender" id="female"
-                                           value="female">
-                                    <label class="form-check-label" for="female">
-                                        Female
-                                    </label>
-                                </div>
                             </div>
-
-                            <button type="submit" class="btn btn-primary">Registration</button>
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Пароль</label>
+                                <input type="password" class="form-control" id="exampleInputPassword1">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Войти</button>
                         </form>
+                        <h7>У вас ещё нет учётной записи? <a href="/registration" style="#000000">Зарегистрируйтесь</a></h7>
+
                     </div>
                 </div>
             </div>
@@ -76,7 +68,7 @@
 
         </div>
         <div class="col-1">
-            <a href="/like"><img src="/static/img/2.png" width="50" height="50" class="rounded float-end"></a>
+            <a href="/login"><img src="/static/img/2.png" width="50" height="50" class="rounded float-end"></a>
 
         </div>
         <div class="col-1">

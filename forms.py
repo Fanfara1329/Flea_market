@@ -12,3 +12,9 @@ class RegistrationForm(FlaskForm):
     gender = RadioField('Gender', choices=[('m', 'male'), ('f', 'female')])
     cards = StringField('Card')
     submit = SubmitField('Registration')
+
+
+class LoginForm(FlaskForm):
+    email = StringField('Почта', validators=[DataRequired()])
+    password = PasswordField('Пароль', validators=[DataRequired()])
+    submit = SubmitField('Войти')
