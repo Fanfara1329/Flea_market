@@ -19,41 +19,20 @@ def load_user(user_id):
 
 
 @app.route('/', methods=['POST', 'GET'])
-@app.route('/index', methods=['POST', 'GET'])
 def index():
     form = forms.LoginForm()
     if form.validate_on_submit():
-        print('no')
         db_sess = db_session.create_session()
         user = db_sess.query(User).filter(User.email == form.email.data).first()
         if user and user.check_password(form.password.data):
-            print('yes')
             login_user(user, remember=form.remember_me.data)
             return redirect("/")
         return render_template('index.html',
                                message="Неправильный логин или пароль",
                                form=form,
                                auth=True)
-    return render_template('index.html', form=form, auth=True)
-
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    print('lol')
-    format = forms.LoginForm()
-    if format.validate_on_submit():
-        print('no')
-        db_sess = db_session.create_session()
-        user = db_sess.query(User).filter(User.email == format.email.data).first()
-        if user and user.check_password(format.password.data):
-            print('yes')
-            login_user(user, remember=format.remember_me.data)
-            return redirect("/")
-        return render_template('login.html',
-                               message="Неправильный логин или пароль",
-                               form=format)
-
-    return render_template('login.html', title='Авторизация', form=format)
+    print(current_user)
+    return render_template('index.html', title='Авторизация', form=form, auth=True)
 
 
 @app.route('/registration', methods=['POST', 'GET'])
@@ -64,8 +43,8 @@ def registration():
                     email=form.email.data,
                     city=form.city.data,
                     cards=form.cards.data,
-                    password=form.password.data,
                     gender=form.gender.data)
+        user.set_password(form.password.data)
         s = db_session.create_session()
         s.add(user)
         s.commit()

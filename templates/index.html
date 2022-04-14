@@ -53,37 +53,47 @@
             <div>
                 <h1>Registration</h1>
                 Enter your details
+
                 <form class="login_form" method="post">
-                    <input type="text" class="form-control" id="name" placeholder="Name" name="name">
-                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
-                           placeholder="E-mail" name="email">
-                    <input type="password" class="form-control" id="password" placeholder="Password"
-                           name="password">
-                    <input type="password" class="form-control" id="check_password"
-                           placeholder="Repeat password"
-                           name="check_password">
-                    <input type="text" class="form-control" id="city" placeholder="City" name="city">
-                    <input type="text" class="form-control" id="cards" placeholder="Card" name="cards">
 
-                    <div class="form-group">
-                        <label for="form-check">Gender</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="gender" id="male" value="male"
-                                   checked>
-                            <label class="form-check-label" for="male">
-                                Male
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="gender" id="female"
-                                   value="female">
-                            <label class="form-check-label" for="female">
-                                Female
-                            </label>
-                        </div>
+                    {{ form.hidden_tag() }}
+                    <p>
+                        {{ form.email.label }}<br>
+                        {{ form.email(class="form-control", type="email") }}<br>
+                        {% for error in form.email.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
                     </div>
+                    {% endfor %}
+                    </p>
+                    <p>
+                        {{ form.password.label }}<br>
+                        {{ form.password(class="form-control", type="password") }}<br>
+                        {% for error in form.password.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+                    </p>
+                    <p>
+                        {{ form.name.label }}<br>
+                        {{ form.name(class="form-control") }}<br>
+                    </p>
+                    <p>
+                        {{ form.city.label }}<br>
+                        {{ form.city(class="form-control") }}<br>
+                    </p>
+                    <p>
+                        {{ form.gender.label }}<br>
+                        {{ form.gender() }}<br>
+                    </p>
+                    <p>
+                        {{ form.cards.label }}<br>
+                        {{ form.cards(class="form-control") }}<br>
+                    </p>
 
-                    <button type="submit" class="btn btn-primary">Registration</button>
+                    <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+                    <div>{{ message }}</div>
                 </form>
             </div>
         </div>
@@ -96,8 +106,8 @@
 
 {% block head %}
 <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-            data-bs-target="{{'#offcanvasRight' if auth else '#ffcanvasRight' }}"
-            aria-controls="offcanvasRight" style="padding: 0px;">
-        <img src="/static/img/1.png" width="50" height="50"></button>
+        data-bs-target="{{'#offcanvasRight' if auth else '#ffcanvasRight' }}"
+        aria-controls="offcanvasRight" style="padding: 0px;">
+    <img src="/static/img/1.png" width="50" height="50"></button>
 
 {% endblock %}
