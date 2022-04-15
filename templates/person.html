@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<dir class="row">
+    <div class="col-4">
+        <h3>Здравствуйте, {{ current_user.name }}!</h3>
+        <p>{{ current_user.email }}</p>
+        <ul class="vertical-menu__content user-content user-content--is-vertical">
+            <li class="orders user-content-item user-content-item--active"><a href="/product"
+                                                                              aria-current="page"
+                                                                              class="nuxt-link-exact-active nuxt-link-active user-content__link is-naked">
+                <div class="touch-area-wrapper user-content__link-container"><!----> <p class="user-content__link-text">
+                    Мои товары
+                </p>
+                    <div class="touch-area"></div>
+                </div>
+            </a></li><!---->
+
+            <li class="account user-content-item"><a href="/user-account" class="user-content__link is-naked">
+                <div class="touch-area-wrapper user-content__link-container"><!----> <p class="user-content__link-text">
+                    Персональные данные и адреса
+                </p>
+                    <div class="touch-area"></div>
+                </div>
+            </a></li><!---->
+            <li class="orders user-content-item user-content-item--active"><a href="/box"
+                                                                              aria-current="page"
+                                                                              class="nuxt-link-exact-active nuxt-link-active user-content__link is-naked">
+                <div class="touch-area-wrapper user-content__link-container"><!----> <p class="user-content__link-text">
+                    Моя корзина
+                </p>
+                    <div class="touch-area"></div>
+                </div>
+            </a></li><!---->
+        </ul>
+
+    </div>
+    <div class="col-8">
+        {% block just %}
+        {% endblock %}
+    </div>
+</dir>
+
+{% endblock %}
+{% block head %}
+<a href="/person"><img src="/static/img/1.png" width="50" height="50"></a>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Избранное</h1>
+{% endblock %}
+{% block head %}
+<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+            data-bs-target="{{'#offcanvasRight' if auth else '#ffcanvasRight' }}"
+            aria-controls="offcanvasRight" style="padding: 0px;">
+        <img src="/static/img/1.png" width="50" height="50"></button>
+
+{% endblock %}

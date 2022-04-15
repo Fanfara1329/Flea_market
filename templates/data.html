@@ -1,0 +1,7 @@
+{% extends "person.html" %}
+{% block just %}
+<h1>{{ current_user.name }}</h1>
+<h1>Ваша почта: {{ current_user.email }}</h1>
+<h1>Пароль:пока хз как лучше сделать</h1>
+<h1>Город: {{ current_user.city }}</h1>
+{% endblock %}

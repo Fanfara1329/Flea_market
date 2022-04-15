@@ -32,8 +32,8 @@ def index():
                                message="Неправильный логин или пароль",
                                form=form,
                                auth=True)
-    print(current_user)
-    return render_template('index.html', title='Авторизация', form=form, auth=True)
+    print(current_user.is_anonymous)
+    return render_template('index.html', form=form, auth=True)
 
 
 @app.route('/registration', methods=['POST', 'GET'])
@@ -59,6 +59,11 @@ def like():
     return render_template('like.html')
 
 
+@app.route('/person')
+def person():
+    return render_template('person.html')
+
+
 @app.route('/product', methods=['POST', 'GET'])
 def new_product():
     form = forms.NewProductForm()
@@ -79,6 +84,16 @@ def new_product():
         s.commit()
         s.close()
     return render_template('product.html', form=form)
+
+
+@app.route('/box')
+def box():
+    return render_template('box.html')
+
+
+@app.route('/user-account')
+def data():
+    return render_template('data.html')
 
 
 db_sess = db_session.create_session()
