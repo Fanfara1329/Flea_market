@@ -3,7 +3,7 @@ from orm.products import Product
 from flask import Flask, render_template, request, redirect
 from orm import db_session
 import forms
-from flask_login import LoginManager, current_user, login_user
+from flask_login import LoginManager, current_user, login_user, login_required, logout_user
 
 app = Flask(__name__)
 db_session.global_init("db/flea.db")
@@ -94,6 +94,13 @@ def box():
 @app.route('/user-account')
 def data():
     return render_template('data.html')
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect("/")
 
 
 db_sess = db_session.create_session()
