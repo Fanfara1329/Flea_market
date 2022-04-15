@@ -66,9 +66,21 @@ def person():
 
 @app.route('/product', methods=['POST', 'GET'])
 def new_product():
-    form = forms.NewProductForm()
-    print(list(form.errors.items()))
+    prod = []
+    db_session.global_init("db/flea.db")
+    db_sess = db_session.create_session()
+    for user in db_sess.query(Product).filter(Product.ven_id == current_user.id):
+        prod.append(user)
+    if len(prod) == 0:
+        return render_template('nope.html')
+    else:
+        #штучка с одеждой типо с прямоугольниками дип-хаус
+        return "Привет, Яндекс!"
 
+
+@app.route('/new')
+def new():
+    form = forms.NewProductForm()
     if form.validate_on_submit():
         image_data = request.files[form.photo.name].read()
         product = Product(ven_id=current_user.id,
