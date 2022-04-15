@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>New product</h1>
+<div>
+    <form class="login-form" action="" enctype="multipart/form-data" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.name.label }}<br>
+            {{ form.name(class="form-control") }}<br>
+        </p>
+
+        <p>
+            {{ form.describe.label }}<br>
+            {{ form.describe(class="form-control") }}<br>
+        </p>
+
+        <p>
+            {{ form.category.label }}<br>
+            {{ form.category() }}<br>
+        </p>
+
+        <p>
+            {{ form.size.label }}<br>
+            {{ form.size() }}<br>
+        </p>
+
+        <p>
+            {{ form.price.label }}<br>
+            {{ form.price() }}<br>
+        </p>
+
+        <p>
+            {{ form.photo.label }}<br>
+            {{ form.photo() }}<br>
+        </p>
+
+        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+
+    </form>
+</div>
+
+{% endblock %}

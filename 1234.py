@@ -1,4 +1,5 @@
 from orm.users import User
+from orm.products import Product
 from flask import Flask, render_template, request, redirect
 from orm import db_session
 import forms
@@ -53,14 +54,35 @@ def registration():
     return render_template('index.html', title='Registration', auth=False, form=form)
 
 
-db_sess = db_session.create_session()
-db_sess.commit()
-
-
 @app.route('/like')
 def like():
     return render_template('like.html')
 
+
+@app.route('/product', methods=['POST', 'GET'])
+def new_product():
+    form = forms.NewProductForm()
+    print(list(form.errors.items()))
+
+    if form.validate_on_submit():
+        image_data = request.files[form.photo.name].read()
+        product = Product(ven_id=current_user.id,
+                          name_product=form.name.data,
+                          describe=form.describe.data,
+                          category_id=form.category.data,
+                          photo=image_data,
+                          size=form.size.data,
+                          price=form.price.data
+                          )
+        s = db_session.create_session()
+        s.add(product)
+        s.commit()
+        s.close()
+    return render_template('product.html', form=form)
+
+
+db_sess = db_session.create_session()
+db_sess.commit()
 
 if __name__ == '__main__':
     app.run(port=8080, host='127.0.0.1', debug=True)
