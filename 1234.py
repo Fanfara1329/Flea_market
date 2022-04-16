@@ -20,7 +20,7 @@ def load_user(user_id):
     return db_sess.query(User).get(user_id)
 
 
-@app.route('/', methods=['POST', 'GET'])
+@app.route('/', methods=['POST', 'GET'])#главная страничка несколько киков и категории, также авторизация
 def index():
     form = forms.LoginForm()
     if form.validate_on_submit():
@@ -37,7 +37,7 @@ def index():
     return render_template('index.html', form=form, auth=True)
 
 
-@app.route('/registration', methods=['POST', 'GET'])
+@app.route('/registration', methods=['POST', 'GET'])#если в кике нажать зарегистрироваться попадёшь сюда
 def registration():
     form = forms.RegistrationForm()
     if form.validate_on_submit():
@@ -45,8 +45,7 @@ def registration():
                     email=form.email.data,
                     city=form.city.data,
                     cards=form.cards.data,
-                    gender=form.gender.data,
-                    likes_products='')
+                    gender=form.gender.data)
         user.set_password(form.password.data)
         s = db_session.create_session()
         s.add(user)
@@ -56,7 +55,7 @@ def registration():
     return render_template('index.html', title='Registration', auth=False, form=form)
 
 
-@app.route('/like', methods=['POST', 'GET'])
+@app.route('/like', methods=['POST', 'GET'])#лайкнутые товары пока он говорит что нет таких
 def like():
 
     form = forms.LoginForm()
@@ -66,16 +65,15 @@ def like():
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             return redirect("/")
-        print('sv')
     return render_template('like.html', form=form, auth=True)
 
 
-@app.route('/person', methods=['POST', 'GET'])
+@app.route('/person', methods=['POST', 'GET'])#личный кабинет от него наследуются мои товары перс. данные моя корзина
 def person():
     return render_template('person.html')
 
 
-@app.route('/product', methods=['POST', 'GET'])
+@app.route('/product', methods=['POST', 'GET'])#мои товары тут он говорит есть ли созданные товары или нет
 def new_product():
     prod = []
     db_session.global_init("db/flea.db")
@@ -86,10 +84,10 @@ def new_product():
         return render_template('nope.html')
     else:
         pro = db_sess.query(Product).filter(Product.ven_id == current_user.id)
-        return render_template("conclusion.html", products=pro, base64=base64)
+        return render_template("conclusion.html", products=pro, base64=base64, auth=True)
 
 
-@app.route('/new', methods=['POST', 'GET'])
+@app.route('/new', methods=['POST', 'GET'])#создание товара
 def new():
     form = forms.NewProductForm()
     if form.validate_on_submit():
@@ -109,17 +107,17 @@ def new():
     return render_template('product.html', form=form)
 
 
-@app.route('/box')
+@app.route('/box')#корзина пока не сделана
 def box():
     return render_template('box.html')
 
 
-@app.route('/user-account')
+@app.route('/user-account')#персональные данные
 def data():
     return render_template('data.html')
 
 
-@app.route('/logout')
+@app.route('/logout')#выход из сессии
 @login_required
 def logout():
     logout_user()
