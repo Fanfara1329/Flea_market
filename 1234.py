@@ -3,6 +3,7 @@ from orm.products import Product
 from flask import Flask, render_template, request, redirect
 from orm import db_session
 import forms
+import base64
 from flask_login import LoginManager, current_user, login_user, login_required, logout_user
 
 app = Flask(__name__)
@@ -51,6 +52,7 @@ def registration():
         s.add(user)
         s.commit()
         s.close()
+        return redirect("/")
     return render_template('index.html', title='Registration', auth=False, form=form)
 
 
@@ -83,7 +85,7 @@ def new_product():
         return render_template('nope.html')
     else:
         pro = db_sess.query(Product).filter(Product.ven_id == current_user.id)
-        return render_template("conclusion.html", products=pro)
+        return render_template("conclusion.html", products=pro, base64=base64)
 
 
 @app.route('/new', methods=['POST', 'GET'])

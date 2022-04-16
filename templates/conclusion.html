@@ -1,17 +1,25 @@
 {% extends "person.html" %}
 {% block just %}
-<h1>Products</h1>
-{% for item in products%}
-<div class="col-md6 border rounded">
-    <div>
-        Name - {{item.name_product}}
-    </div>
+<div class="container">
+    <h1>Products</h1>
+    <table class="table">
+        <tbody>
+        {% for item in products%}
+        <tr>
+            <td class="border rounded" style="width: 50%"><img
+                    src="data:image/png;base64,{{base64.b64encode(item.photo).decode()}}" width="300" height="300">
+            </td>
+            <td class="border rounded" style="width: 50%"><p>Name - {{item.name_product}}</p>
+                <p>Describe:</p>
+                <p>{{item.describe}}</p>
+                <p>Size - {{item.size}}</p>
+                <p>Price - {{item.price}} rub</p></td>
+        </tr>
 
-    <div>
-        Describe:
-        {{item.describe}}
-    </div>
+        {% endfor %}
+        </tbody>
+    </table>
 </div>
 
-{% endfor %}
+
 {% endblock %}
