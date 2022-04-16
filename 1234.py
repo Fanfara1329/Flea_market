@@ -50,13 +50,20 @@ def registration():
         s.add(user)
         s.commit()
         s.close()
-
     return render_template('index.html', title='Registration', auth=False, form=form)
 
 
-@app.route('/like')
+@app.route('/like', methods=['POST', 'GET'])
 def like():
-    return render_template('like.html')
+
+    form = forms.LoginForm()
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        user = db_sess.query(User).filter(User.email == form.email.data).first()
+        if user and user.check_password(form.password.data):
+            login_user(user, remember=form.remember_me.data)
+            return redirect("/")
+    return render_template('like.html', form=form, auth=True)
 
 
 @app.route('/person')
