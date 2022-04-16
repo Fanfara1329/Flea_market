@@ -1,12 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Избранное</h1>
+<div class="col-4">
+    <h4>Избранное</h4>
+</div>
+<div class="col-2">
+    <figure><img src="/static/img/fav.png">
+        <figcaption> У вас нет любимых товаров</figcaption>
+    </figure>
+
+</div>
+<div class="col-5"></div>
+
 {% endblock %}
 {% block head %}
-<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-            data-bs-target="{{'#offcanvasRight' if auth else '#ffcanvasRight' }}"
-            aria-controls="offcanvasRight" style="padding: 0px;">
-        <img src="/static/img/1.png" width="50" height="50"></button>
-
+<a href="/person"><img src="/static/img/1.png" width="50" height="50"></a>
 {% endblock %}

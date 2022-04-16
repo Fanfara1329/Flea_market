@@ -74,7 +74,7 @@ def new_product():
     if len(prod) == 0:
         return render_template('nope.html')
     else:
-        #штучка с одеждой типо с прямоугольниками дип-хаус
+        # штучка с одеждой типо с прямоугольниками дип-хаус
         return "Привет, Яндекс!"
 
 
