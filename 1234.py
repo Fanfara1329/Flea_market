@@ -44,7 +44,8 @@ def registration():
                     email=form.email.data,
                     city=form.city.data,
                     cards=form.cards.data,
-                    gender=form.gender.data)
+                    gender=form.gender.data,
+                    likes_products='')
         user.set_password(form.password.data)
         s = db_session.create_session()
         s.add(user)
@@ -66,7 +67,7 @@ def like():
     return render_template('like.html', form=form, auth=True)
 
 
-@app.route('/person')
+@app.route('/person', methods=['POST', 'GET'])
 def person():
     return render_template('person.html')
 
@@ -81,11 +82,11 @@ def new_product():
     if len(prod) == 0:
         return render_template('nope.html')
     else:
-        # штучка с одеждой типо с прямоугольниками дип-хаус
-        return "Привет, Яндекс!"
+        pro = db_sess.query(Product).filter(Product.ven_id == current_user.id)
+        return render_template("conclusion.html", products=pro)
 
 
-@app.route('/new')
+@app.route('/new', methods=['POST', 'GET'])
 def new():
     form = forms.NewProductForm()
     if form.validate_on_submit():

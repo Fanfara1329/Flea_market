@@ -1,0 +1,17 @@
+{% extends "person.html" %}
+{% block just %}
+<h1>Products</h1>
+{% for item in products%}
+<div class="col-md6 border rounded">
+    <div>
+        Name - {{item.name_product}}
+    </div>
+
+    <div>
+        Describe:
+        {{item.describe}}
+    </div>
+</div>
+
+{% endfor %}
+{% endblock %}
