@@ -64,6 +64,7 @@ def like():
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             return redirect("/")
+        print('sv')
     return render_template('like.html', form=form, auth=True)
 
 
