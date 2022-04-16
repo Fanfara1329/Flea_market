@@ -7,7 +7,7 @@
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
           crossorigin="anonymous">
 
-    <title>Тестируюм Bootstrap</title>
+    <title>Flea market</title>
 </head>
 <body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
@@ -16,9 +16,27 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-3">
-            <button type="button" class="btn btn-dark">Женщины</button>
-            <button type="button" class="btn btn-dark">Мужчины</button>
+            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"
+                    aria-controls="offcanvasExample">
+                Category
+            </button>
+
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample"
+                 aria-labelledby="offcanvasExampleLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Category</h5>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                            aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <div>
+
+                    </div>
+
+                </div>
+            </div>
         </div>
+
         <div class="col-6"></div>
         <div class="col-1">
             {% block head %}

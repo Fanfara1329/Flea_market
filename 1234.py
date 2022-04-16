@@ -20,7 +20,7 @@ def load_user(user_id):
     return db_sess.query(User).get(user_id)
 
 
-@app.route('/', methods=['POST', 'GET'])#главная страничка несколько киков и категории, также авторизация
+@app.route('/', methods=['POST', 'GET'])  # главная страничка, несколько киков и категории, также авторизация
 def index():
     form = forms.LoginForm()
     if form.validate_on_submit():
@@ -33,11 +33,10 @@ def index():
                                message="Неправильный логин или пароль",
                                form=form,
                                auth=True)
-    print(current_user.is_anonymous)
     return render_template('index.html', form=form, auth=True)
 
 
-@app.route('/registration', methods=['POST', 'GET'])#если в кике нажать зарегистрироваться попадёшь сюда
+@app.route('/registration', methods=['POST', 'GET'])  # если в кике нажать зарегистрироваться, попадёшь сюда
 def registration():
     form = forms.RegistrationForm()
     if form.validate_on_submit():
@@ -55,9 +54,8 @@ def registration():
     return render_template('index.html', title='Registration', auth=False, form=form)
 
 
-@app.route('/like', methods=['POST', 'GET'])#лайкнутые товары пока он говорит что нет таких
+@app.route('/like', methods=['POST', 'GET'])  # лайкнутые товары, пока он говорит, что нет таких
 def like():
-
     form = forms.LoginForm()
     if form.validate_on_submit():
         db_sess = db_session.create_session()
@@ -68,26 +66,27 @@ def like():
     return render_template('like.html', form=form, auth=True)
 
 
-@app.route('/person', methods=['POST', 'GET'])#личный кабинет от него наследуются мои товары перс. данные моя корзина
+@app.route('/person',
+           methods=['POST', 'GET'])  # личный кабинет, от него наследуются мои товары перс. данные моя корзина
 def person():
     return render_template('person.html')
 
 
-@app.route('/product', methods=['POST', 'GET'])#мои товары тут он говорит есть ли созданные товары или нет
+@app.route('/product', methods=['POST', 'GET'])  # мои товары, тут он говорит, есть ли созданные товары или нет
 def new_product():
-    prod = []
     db_session.global_init("db/flea.db")
     db_sess = db_session.create_session()
-    for user in db_sess.query(Product).filter(Product.ven_id == current_user.id):
-        prod.append(user)
-    if len(prod) == 0:
+    pro = []
+    for product in db_sess.query(Product).filter(Product.ven_id == current_user.id):
+        pro.append(product)
+    if len(pro) == 0:
         return render_template('nope.html')
     else:
         pro = db_sess.query(Product).filter(Product.ven_id == current_user.id)
         return render_template("conclusion.html", products=pro, base64=base64, auth=True)
 
 
-@app.route('/new', methods=['POST', 'GET'])#создание товара
+@app.route('/new', methods=['POST', 'GET'])  # создание товара
 def new():
     form = forms.NewProductForm()
     if form.validate_on_submit():
@@ -107,17 +106,17 @@ def new():
     return render_template('product.html', form=form)
 
 
-@app.route('/box')#корзина пока не сделана
+@app.route('/box')  # корзина пока не сделана
 def box():
     return render_template('box.html')
 
 
-@app.route('/user-account')#персональные данные
+@app.route('/user-account')  # персональные данные
 def data():
     return render_template('data.html')
 
 
-@app.route('/logout')#выход из сессии
+@app.route('/logout')  # выход из сессии
 @login_required
 def logout():
     logout_user()
