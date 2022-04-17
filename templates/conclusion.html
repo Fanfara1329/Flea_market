@@ -17,7 +17,7 @@
                 <p>Price - {{item.price}} rub</p>
 
                 <!-- Button trigger modal -->
-                <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
                         value="{{item.id}}">
                     Добавить в корзину
                 </button>
@@ -37,15 +37,35 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Понятно</button>
-                                <button type="button" class="btn btn-primary">Перейти в корзину</button>
+                                <a href="/box"><button type="button" class="btn btn-primary">Перейти в корзину</button></a>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <button class="btn btn-primary" type="button" style="padding: 0px;">
+                <button class="btn btn-primary" type="button"  data-bs-toggle="modal" data-bs-target="#exampleMdal" style="padding: 0px;">
                     <img src="/static/img/2.png" width="50" height="50">
                 </button>
+
+                <div class="modal fade" id="exampleMdal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleMdalLabel">Добавлено в Избранное</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Товар добавлен в Избранное
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Понятно</button>
+                                <a href="/like"><button type="button" class="btn btn-primary">Перейти в Избранное</button></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
             </td>
 
         </tr>
