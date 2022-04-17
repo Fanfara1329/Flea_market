@@ -1,5 +1,6 @@
 from orm.users import User
 from orm.products import Product
+from orm.category import Category
 from flask import Flask, render_template, request, redirect
 from orm import db_session
 import forms
@@ -12,6 +13,8 @@ app.config['SECRET_KEY'] = 'блаблабла'
 
 login_manager = LoginManager()
 login_manager.init_app(app)
+db_sess = db_session.create_session()
+category = db_sess.query(Category).all()
 
 
 @login_manager.user_loader
@@ -33,7 +36,7 @@ def index():
                                message="Неправильный логин или пароль",
                                form=form,
                                auth=True)
-    return render_template('index.html', form=form, auth=True)
+    return render_template('index.html', form=form, auth=True, category=category)
 
 
 @app.route('/registration', methods=['POST', 'GET'])  # если в кике нажать зарегистрироваться, попадёшь сюда
@@ -51,7 +54,7 @@ def registration():
         s.commit()
         s.close()
         return redirect("/")
-    return render_template('index.html', title='Registration', auth=False, form=form)
+    return render_template('index.html', title='Registration', auth=False, form=form, category=category)
 
 
 @app.route('/like', methods=['POST', 'GET'])  # лайкнутые товары, пока он говорит, что нет таких
@@ -63,13 +66,13 @@ def like():
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             return redirect("/")
-    return render_template('like.html', form=form, auth=True)
+    return render_template('like.html', form=form, auth=True, category=category)
 
 
 @app.route('/person',
            methods=['POST', 'GET'])  # личный кабинет, от него наследуются мои товары перс. данные моя корзина
 def person():
-    return render_template('person.html')
+    return render_template('person.html', category=category)
 
 
 @app.route('/product', methods=['POST', 'GET'])  # мои товары, тут он говорит, есть ли созданные товары или нет
@@ -80,10 +83,10 @@ def new_product():
     for product in db_sess.query(Product).filter(Product.ven_id == current_user.id):
         pro.append(product)
     if len(pro) == 0:
-        return render_template('nope.html')
+        return render_template('nope.html', category=category)
     else:
         pro = db_sess.query(Product).filter(Product.ven_id == current_user.id)
-        return render_template("conclusion.html", products=pro, base64=base64, auth=True)
+        return render_template("conclusion.html", products=pro, base64=base64, auth=True, category=category)
 
 
 @app.route('/new', methods=['POST', 'GET'])  # создание товара
@@ -103,17 +106,17 @@ def new():
         s.add(product)
         s.commit()
         s.close()
-    return render_template('product.html', form=form)
+    return render_template('product.html', form=form, category=category)
 
 
 @app.route('/box')  # корзина пока не сделана
 def box():
-    return render_template('box.html')
+    return render_template('box.html', category=category)
 
 
 @app.route('/user-account')  # персональные данные
 def data():
-    return render_template('data.html')
+    return render_template('data.html', category=category)
 
 
 @app.route('/logout')  # выход из сессии
@@ -121,6 +124,13 @@ def data():
 def logout():
     logout_user()
     return redirect("/")
+
+
+@app.route('/merchandise/<cat>')
+def merchandise(cat):
+    cat = cat[1:-1]
+    products = db_sess.query(Product).filter(Product.category_id == cat)
+    return render_template('merchandise.html', products=products, base64=base64, category=category)
 
 
 db_sess = db_session.create_session()

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h1>Products</h1>
+    <table class="table">
+        <tbody>
+        {% for item in products%}
+        <tr>
+            <td class="border rounded" style="width: 50%"><img
+                    src="data:image/png;base64,{{base64.b64encode(item.photo).decode()}}" width="300" height="300">
+            </td>
+            <td class="border rounded" style="width: 50%"><p>Name - {{item.name_product}}</p>
+                <p>Describe:</p>
+                <p>{{item.describe}}</p>
+                <p>Size - {{item.size}}</p>
+                <p>Price - {{item.price}} rub</p>
+
+
+                <button class="btn btn-primary" type="submit" value="{{item.id}}">
+                    Корзина
+                </button>
+
+                <button class="btn btn-primary" type="submit" style="padding: 0px;">
+                    <img src="/static/img/2.png" width="50" height="50">
+                </button>
+            </td>
+
+        </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

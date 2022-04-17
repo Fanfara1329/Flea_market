@@ -6,17 +6,19 @@
         <tbody>
         {% for item in products%}
         <tr>
-            <td class="border rounded" style="width: 50%"><img
+            <td class="border rounded" style="width: 40%"><img
                     src="data:image/png;base64,{{base64.b64encode(item.photo).decode()}}" width="300" height="300">
             </td>
-            <td class="border rounded" style="width: 50%"><p>Name - {{item.name_product}}</p>
+            <td class="border rounded" style="width: 60%">
+                <p>Name - {{item.name_product}}</p>
                 <p>Describe:</p>
                 <p>{{item.describe}}</p>
                 <p>Size - {{item.size}}</p>
                 <p>Price - {{item.price}} rub</p>
 
                 <!-- Button trigger modal -->
-                <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        value="{{item.id}}">
                     Добавить в корзину
                 </button>
 

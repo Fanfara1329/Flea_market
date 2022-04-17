@@ -24,7 +24,10 @@ class LoginForm(FlaskForm):
 class NewProductForm(FlaskForm):
     name = StringField('Name product')
     describe = StringField('Describe')
-    category = RadioField('Category', choices=[('1', ''), ('2', '')])
+    category = RadioField('Category', choices=[("1", "Верхняя одежда"), ("2", "Штаны, шорты, юбки"),
+                                               ("3", "Платья"), ("4", "Украшения"), ("5", "Обувь"),
+                                               ("6", "Очки, сумки"), ("7", "Футболки, майки"),
+                                               ("8", "Свитера, худи"), ("9", "Шапки, кепки, платки")])
     size = StringField('Size')
     price = StringField('Price')
     photo = FileField('Photo')
