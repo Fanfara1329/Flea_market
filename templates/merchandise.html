@@ -1,5 +1,131 @@
 {% extends "base.html" %}
 {% block content %}
+<div class="col-1">
+    {%if auth%}
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
+         aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div>
+                <img src="/static/img/xe.png" width="318" height="180">
+                <p><h4>Войди в аккаунт или создай учетную запись</h4></p>
+                <form action="" method="post">
+                    {{ form.hidden_tag() }}
+                    <p>
+                        {{ form.email.label }}<br>
+                        {{ form.email(class="form-control", type="email") }}<br>
+                        {% for error in form.email.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+                    </p>
+                    <p>
+                        {{ form.password.label }}<br>
+                        {{ form.password(class="form-control", type="password") }}<br>
+                        {% for error in form.password.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+                    </p>
+                    <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+                    <p>{{ form.submit(class="btn btn-primary") }}</p>
+
+                </form>
+                {% if message %}
+                <div class="modal" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Modal title</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Modal body text goes here.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                                </button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    alert("{{ message }}");
+
+
+                </script>
+                {% endif %}
+                <h7>У вас ещё нет учётной записи? <a href="/registration" style="#000000">Зарегистрируйтесь</a>
+                </h7>
+
+            </div>
+        </div>
+    </div>
+    {%else%}
+    <div class="offcanvas offcanvas-end show" tabindex="-1" id="ffcanvasRight"
+         aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div>
+                <h1>Registration</h1>
+                Enter your details
+
+                <form class="login_form" method="post">
+
+                    {{ form.hidden_tag() }}
+                    <p>
+                        {{ form.email.label }}<br>
+                        {{ form.email(class="form-control", type="email") }}<br>
+                        {% for error in form.email.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+                    </p>
+                    <p>
+                        {{ form.password.label }}<br>
+                        {{ form.password(class="form-control", type="password") }}<br>
+                        {% for error in form.password.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+                    </p>
+                    <p>
+                        {{ form.name.label }}<br>
+                        {{ form.name(class="form-control") }}<br>
+                    </p>
+                    <p>
+                        {{ form.city.label }}<br>
+                        {{ form.city(class="form-control") }}<br>
+                    </p>
+                    <p>
+                        {{ form.gender.label }}<br>
+                        {{ form.gender() }}<br>
+                    </p>
+                    <p>
+                        {{ form.cards.label }}<br>
+                        {{ form.cards(class="form-control") }}<br>
+                    </p>
+
+                    <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+                    <div>{{ message }}</div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
 <div class="container">
     <h1>Products</h1>
     <table class="table">
@@ -16,13 +142,55 @@
                 <p>Price - {{item.price}} rub</p>
 
 
-                <button class="btn btn-primary" type="submit" value="{{item.id}}">
-                    Корзина
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        value="{{item.id}}">
+                    Добавить в корзину
                 </button>
 
-                <button class="btn btn-primary" type="submit" style="padding: 0px;">
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Добавлено в корзину</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Ваш товар добавлен в корзину , Вы можете перейти в неё и и оплатить
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Понятно</button>
+                                <a href="/box"><button type="button" class="btn btn-primary">Перейти в корзину</button></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" type="button"  data-bs-toggle="modal" data-bs-target="#exampleMdal" style="padding: 0px;">
                     <img src="/static/img/2.png" width="50" height="50">
                 </button>
+
+                <div class="modal fade" id="exampleMdal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleMdalLabel">Добавлено в Избранное</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Товар добавлен в Избранное
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Понятно</button>
+                                <a href="/like"><button type="button" class="btn btn-primary">Перейти в Избранное</button></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
             </td>
 
         </tr>
@@ -32,4 +200,15 @@
     </table>
 </div>
 
+{% endblock %}
+{% block head %}
+{% if not current_user.get_id() %}
+<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+        data-bs-target="{{'#offcanvasRight' if auth else '#ffcanvasRight' }}"
+        aria-controls="offcanvasRight" style="padding: 0px;">
+    <img src="/static/img/1.png" width="50" height="50">
+</button>
+{% else %}
+<a href="/person"><img src="/static/img/1.png" width="50" height="50"></a>
+{% endif %}
 {% endblock %}

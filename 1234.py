@@ -1,6 +1,7 @@
 from orm.users import User
 from orm.products import Product
 from orm.category import Category
+#from orm.likes import Likes
 from flask import Flask, render_template, request, redirect
 from orm import db_session
 import forms
@@ -86,7 +87,7 @@ def new_product():
         return render_template('nope.html', category=category)
     else:
         pro = db_sess.query(Product).filter(Product.ven_id == current_user.id)
-        return render_template("conclusion.html", products=pro, base64=base64, auth=True, category=category)
+        return render_template("conclusion.html", products=pro, base64=base64, category=category)
 
 
 @app.route('/new', methods=['POST', 'GET'])  # создание товара
@@ -126,11 +127,20 @@ def logout():
     return redirect("/")
 
 
-@app.route('/merchandise/<cat>')
+@app.route('/merchandise/<cat>', methods=['POST', 'GET'])
 def merchandise(cat):
+    form = forms.LoginForm()
+    try:
+        if form.validate_on_submit():
+            user = db_sess.query(User).filter(User.email == form.email.data).first()
+            if user and user.check_password(form.password.data):
+                login_user(user, remember=form.remember_me.data)
+                return redirect("/")
+    except Exception as e:
+        print(e)
     cat = cat[1:-1]
     products = db_sess.query(Product).filter(Product.category_id == cat)
-    return render_template('merchandise.html', products=products, base64=base64, category=category)
+    return render_template('merchandise.html', form=form, auth=True, products=products, base64=base64, category=category)
 
 
 db_sess = db_session.create_session()
