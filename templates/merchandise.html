@@ -63,6 +63,7 @@
 
 
 
+
                 </script>
                 {% endif %}
                 <h7>У вас ещё нет учётной записи? <a href="/registration" style="#000000">Зарегистрируйтесь</a>
@@ -145,14 +146,16 @@
                 <p>Price - {{item.price}} rub</p>
 
 
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                        value="{{item.id}}">
-                    Добавить в корзину
-                </button>
+                <a href="?product_id={{item.id}}">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal{{ item.id }}"
+                            value="{{item.id}}">
+                        Добавить в корзину
+                    </button>
+                </a>
 
                 <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                     aria-hidden="true">
+                <div class="modal" id="exampleModal{{ item.id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                     aria-hidden="false">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -205,6 +208,15 @@
         </tr>
 
         {% endfor %}
+        {% if "product_id" in request.args%}
+        <script>
+                    var myModal = new bootstrap.Modal(document.getElementById('exampleModal{{ request.args["product_id"] }}'), {
+                      keyboard: false
+                    });
+                    myModal.show();
+
+        </script>
+        {% endif %}
         </tbody>
     </table>
 </div>

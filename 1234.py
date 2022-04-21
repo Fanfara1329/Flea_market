@@ -2,6 +2,8 @@ from orm.users import User
 from orm.products import Product
 from orm.category import Category
 from orm.likes import Likes
+from orm.box import Box
+
 from flask import Flask, render_template, request, redirect
 from orm import db_session
 import forms
@@ -127,8 +129,15 @@ def logout():
     return redirect("/")
 
 
-@app.route('/merchandise/<cat>', methods=['POST', 'GET'])
+@app.route('/merchandise/<int:cat>', methods=['POST', 'GET'])
 def merchandise(cat):
+    print(request.args)
+    if request.args:
+        box = Box(user_id=current_user.id, product_id=request.args["product_id"])
+        s = db_session.create_session()
+        s.add(box)
+        s.commit()
+        s.close()
     form = forms.LoginForm()
     try:
         if form.validate_on_submit():
@@ -139,7 +148,7 @@ def merchandise(cat):
     except Exception as e:
         print(e)
 
-    cat = cat[1:-1]
+
     prod = 0
     for p in db_sess.query(Product).filter(Product.category_id == cat):
         prod += 1
