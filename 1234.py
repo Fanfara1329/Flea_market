@@ -1,7 +1,7 @@
 from orm.users import User
 from orm.products import Product
 from orm.category import Category
-#from orm.likes import Likes
+from orm.likes import Likes
 from flask import Flask, render_template, request, redirect
 from orm import db_session
 import forms
@@ -138,9 +138,18 @@ def merchandise(cat):
                 return redirect("/")
     except Exception as e:
         print(e)
+
     cat = cat[1:-1]
-    products = db_sess.query(Product).filter(Product.category_id == cat)
-    return render_template('merchandise.html', form=form, auth=True, products=products, base64=base64, category=category)
+    prod = 0
+    for p in db_sess.query(Product).filter(Product.category_id == cat):
+        prod += 1
+    if prod != 0:
+        products = db_sess.query(Product).filter(Product.category_id == cat)
+        return render_template('merchandise.html', form=form, auth=True, products=products, base64=base64,
+                               category=category)
+    else:
+        return render_template('merchandise.html', form=form, auth=True, products=None, base64=base64,
+                               category=category)
 
 
 db_sess = db_session.create_session()

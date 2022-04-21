@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% if products != None%}
 <div class="col-1">
     {%if auth%}
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
@@ -58,6 +59,8 @@
                 </div>
                 <script>
                     alert("{{ message }}");
+
+
 
 
                 </script>
@@ -162,13 +165,16 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Понятно</button>
-                                <a href="/box"><button type="button" class="btn btn-primary">Перейти в корзину</button></a>
+                                <a href="/box">
+                                    <button type="button" class="btn btn-primary">Перейти в корзину</button>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <button class="btn btn-primary" type="button"  data-bs-toggle="modal" data-bs-target="#exampleMdal" style="padding: 0px;">
+                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#exampleMdal"
+                        style="padding: 0px;">
                     <img src="/static/img/2.png" width="50" height="50">
                 </button>
 
@@ -183,13 +189,16 @@
                             </div>
                             <div class="modal-body">
                                 Товар добавлен в Избранное
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Понятно</button>
-                                <a href="/like"><button type="button" class="btn btn-primary">Перейти в Избранное</button></a>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Понятно
+                                    </button>
+                                    <a href="/like">
+                                        <button type="button" class="btn btn-primary">Перейти в Избранное</button>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 </div>
             </td>
 
@@ -199,7 +208,14 @@
         </tbody>
     </table>
 </div>
-
+{% else %}
+<div class="col-4"></div>
+<div class="col-5">
+    <figure><img src="/static/img/fav.png">
+        <figcaption>У вас нет любимых товаров</figcaption>
+    </figure>
+</div>
+{% endif%}
 {% endblock %}
 {% block head %}
 {% if not current_user.get_id() %}
