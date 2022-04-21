@@ -1,7 +1,7 @@
 from orm.users import User
 from orm.products import Product
 from orm.category import Category
-from orm.likes import Likes
+# from orm.likes import Likes
 from flask import Flask, render_template, request, redirect
 from orm import db_session
 import forms
@@ -143,6 +143,7 @@ def merchandise(cat):
     prod = 0
     for p in db_sess.query(Product).filter(Product.category_id == cat):
         prod += 1
+
     if prod != 0:
         products = db_sess.query(Product).filter(Product.category_id == cat)
         return render_template('merchandise.html', form=form, auth=True, products=products, base64=base64,
