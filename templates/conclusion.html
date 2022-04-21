@@ -9,22 +9,23 @@
             <td class="border rounded" style="width: 40%"><img
                     src="data:image/png;base64,{{base64.b64encode(item.photo).decode()}}" width="300" height="300">
             </td>
-            <td class="border rounded" style="width: 60%">
-                <p>Name - {{item.name_product}}</p>
+            <td class="border rounded" style="width: 50%"><p>Name - {{item.name_product}}</p>
                 <p>Describe:</p>
                 <p>{{item.describe}}</p>
                 <p>Size - {{item.size}}</p>
                 <p>Price - {{item.price}} rub</p>
 
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                        value="{{item.id}}">
-                    Добавить в корзину
-                </button>
+
+                <a href="?product_id={{item.id}}">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal{{ item.id }}"
+                            value="{{item.id}}">
+                        Добавить в корзину
+                    </button>
+                </a>
 
                 <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                     aria-hidden="true">
+                <div class="modal" id="exampleModal{{ item.id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                     aria-hidden="false">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -37,18 +38,21 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Понятно</button>
-                                <a href="/box"><button type="button" class="btn btn-primary">Перейти в корзину</button></a>
+                                <a href="/box">
+                                    <button type="button" class="btn btn-primary">Перейти в корзину</button>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <button class="btn btn-primary" type="button"  data-bs-toggle="modal" data-bs-target="#exampleMdal" style="padding: 0px;">
+                <a href="?like_id={{item.id}}"><button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#exampleMdal{{ item.id }}"
+                        style="padding: 0px;">
                     <img src="/static/img/2.png" width="50" height="50">
-                </button>
+                </button></a>
 
-                <div class="modal fade" id="exampleMdal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                     aria-hidden="true">
+                <div class="modal fade" id="exampleMdal{{ item.id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                     aria-hidden="false">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -58,19 +62,40 @@
                             </div>
                             <div class="modal-body">
                                 Товар добавлен в Избранное
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Понятно</button>
-                                <a href="/like"><button type="button" class="btn btn-primary">Перейти в Избранное</button></a>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Понятно
+                                    </button>
+                                    <a href="/like">
+                                        <button type="button" class="btn btn-primary">Перейти в Избранное</button>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 </div>
             </td>
 
         </tr>
 
         {% endfor %}
+        {% if "product_id" in request.args%}
+        <script>
+                    var myModal = new bootstrap.Modal(document.getElementById('exampleModal{{ request.args["product_id"] }}'), {
+                      keyboard: false
+                    });
+                    myModal.show();
+
+        </script>
+        {% endif %}
+        {% if "like_id" in request.args%}
+        <script>
+                    var myModal = new bootstrap.Modal(document.getElementById('exampleMdal{{ request.args["like_id"] }}'), {
+                      keyboard: false
+                    });
+                    myModal.show();
+
+        </script>
+        {% endif %}
         </tbody>
     </table>
 </div>

@@ -1,7 +1,6 @@
 from orm.users import User
 from orm.products import Product
 from orm.category import Category
-# from orm.likes import Likes
 from orm.likes import Likes
 from orm.box import Box
 
@@ -90,6 +89,18 @@ def new_product():
         return render_template('nope.html', category=category)
     else:
         pro = db_sess.query(Product).filter(Product.ven_id == current_user.id)
+        if 'product_id' in request.args:
+            box = Box(user_id=current_user.id, product_id=request.args["product_id"])
+            s = db_session.create_session()
+            s.add(box)
+            s.commit()
+            s.close()
+        if 'like_id' in request.args:
+            like = Likes(user_id=current_user.id, product_id=request.args["like_id"])
+            s = db_session.create_session()
+            s.add(like)
+            s.commit()
+            s.close()
         return render_template("conclusion.html", products=pro, base64=base64, category=category)
 
 
@@ -133,10 +144,16 @@ def logout():
 @app.route('/merchandise/<int:cat>', methods=['POST', 'GET'])
 def merchandise(cat):
     print(request.args)
-    if request.args:
+    if 'product_id' in request.args:
         box = Box(user_id=current_user.id, product_id=request.args["product_id"])
         s = db_session.create_session()
         s.add(box)
+        s.commit()
+        s.close()
+    if 'like_id' in request.args:
+        like = Likes(user_id=current_user.id, product_id=request.args["like_id"])
+        s = db_session.create_session()
+        s.add(like)
         s.commit()
         s.close()
     form = forms.LoginForm()

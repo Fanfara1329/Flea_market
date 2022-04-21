@@ -176,13 +176,13 @@
                     </div>
                 </div>
 
-                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#exampleMdal"
+                <a href="?like_id={{item.id}}"><button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#exampleMdal{{ item.id }}"
                         style="padding: 0px;">
                     <img src="/static/img/2.png" width="50" height="50">
-                </button>
+                </button></a>
 
-                <div class="modal fade" id="exampleMdal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                     aria-hidden="true">
+                <div class="modal fade" id="exampleMdal{{ item.id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                     aria-hidden="false">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -211,6 +211,15 @@
         {% if "product_id" in request.args%}
         <script>
                     var myModal = new bootstrap.Modal(document.getElementById('exampleModal{{ request.args["product_id"] }}'), {
+                      keyboard: false
+                    });
+                    myModal.show();
+
+        </script>
+        {% endif %}
+        {% if "like_id" in request.args%}
+        <script>
+                    var myModal = new bootstrap.Modal(document.getElementById('exampleMdal{{ request.args["like_id"] }}'), {
                       keyboard: false
                     });
                     myModal.show();
