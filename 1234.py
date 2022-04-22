@@ -11,9 +11,6 @@ import base64
 from flask_login import LoginManager, current_user, login_user, login_required, logout_user
 from password_validator import PasswordValidator
 
-shem = PasswordValidator()
-shem.min(8).max(100).has().uppercase().has().lowercase().has().digits().has().no().spaces().has().letters()
-
 app = Flask(__name__)
 db_session.global_init("db/flea.db")
 app.config['SECRET_KEY'] = 'блаблабла'
@@ -22,6 +19,30 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 db_sess = db_session.create_session()
 category = db_sess.query(Category).all()
+
+
+def validates(password):
+    a, b, c, d, e, f, g = PasswordValidator(), PasswordValidator(), PasswordValidator(), PasswordValidator(), \
+                          PasswordValidator(), PasswordValidator(), PasswordValidator()
+    a.min(8), b.max(30), c.has().uppercase(), d.has().lowercase(), e.has().digits()
+    f.has().no().spaces(), g.has().letters()
+
+    if not a.validate(password):
+        return 'Need more than 8 characters'
+    elif not b.validate(password):
+        return 'Too long password'
+    elif not e.validate(password):
+        return 'Need digits'
+    elif not g.validate(password):
+        return 'Need letters'
+    elif not c.validate(password):
+        return 'Need uppercase letters'
+    elif not d.validate(password):
+        return 'Need capital letters'
+    elif not f.validate(password):
+        return "Don't use spaces"
+    else:
+        return None
 
 
 @login_manager.user_loader
@@ -56,7 +77,8 @@ def registration():
                     cards=form.cards.data,
                     gender=form.gender.data)
         user.set_password(form.password.data)
-        if shem.validate(form.password.data):
+        mes = validates(form.password.data)
+        if mes is None:
             s = db_session.create_session()
             s.add(user)
             s.commit()
@@ -64,7 +86,7 @@ def registration():
             return redirect("/")
         else:
             return render_template('index.html', title='Registration', auth=False, form=form, category=category,
-                                   message="Incorrect password")
+                                   message=mes)
     return render_template('index.html', title='Registration', auth=False, form=form, category=category)
 
 
