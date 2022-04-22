@@ -1,0 +1,36 @@
+a {
+color:#ff0000;
+text-decoration:none
+}
+
+a:visited {
+color:#ffcf48;
+text-decoration:none
+}
+
+a:hover {
+color:#ff0000;
+text-decoration: underline
+}
+
+button {
+}
+button:hover {
+  background: #fff7f5;
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px #ff704d;
+}
+
+body {
+  background-image: url(/static/img/kick.png);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}

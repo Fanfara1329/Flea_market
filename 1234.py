@@ -9,6 +9,10 @@ from orm import db_session
 import forms
 import base64
 from flask_login import LoginManager, current_user, login_user, login_required, logout_user
+from password_validator import PasswordValidator
+
+shem = PasswordValidator()
+shem.min(8).max(100).has().uppercase().has().lowercase().has().digits().has().no().spaces().has().letters()
 
 app = Flask(__name__)
 db_session.global_init("db/flea.db")
@@ -52,33 +56,51 @@ def registration():
                     cards=form.cards.data,
                     gender=form.gender.data)
         user.set_password(form.password.data)
-        s = db_session.create_session()
-        s.add(user)
-        s.commit()
-        s.close()
-        return redirect("/")
+        if shem.validate(form.password.data):
+            s = db_session.create_session()
+            s.add(user)
+            s.commit()
+            s.close()
+            return redirect("/")
+        else:
+            return render_template('index.html', title='Registration', auth=False, form=form, category=category,
+                                   message="Incorrect password")
     return render_template('index.html', title='Registration', auth=False, form=form, category=category)
 
 
 @app.route('/like', methods=['POST', 'GET'])  # лайкнутые товары, пока он говорит, что нет таких
+@login_required
 def like():
+    db_sess = db_session.create_session()
     form = forms.LoginForm()
-    if form.validate_on_submit():
-        db_sess = db_session.create_session()
-        user = db_sess.query(User).filter(User.email == form.email.data).first()
-        if user and user.check_password(form.password.data):
-            login_user(user, remember=form.remember_me.data)
-            return redirect("/")
-    return render_template('like.html', form=form, auth=True, category=category)
+    try:
+        if form.validate_on_submit():
+            user = db_sess.query(User).filter(User.email == form.email.data).first()
+            if user and user.check_password(form.password.data):
+                login_user(user, remember=form.remember_me.data)
+                return redirect("/")
+    except Exception as e:
+        print(e)
+    prod = []
+
+    for i in db_sess.query(Likes).filter(Likes.user_id == current_user.id):
+        product = db_sess.query(Product).get(i.product_id)
+        prod.append(product)
+    print(prod)
+
+    return render_template('like.html', form=form, auth=True, products=prod, base64=base64,
+                           category=category)
 
 
 @app.route('/person',
            methods=['POST', 'GET'])  # личный кабинет, от него наследуются мои товары перс. данные моя корзина
+@login_required
 def person():
     return render_template('person.html', category=category)
 
 
 @app.route('/product', methods=['POST', 'GET'])  # мои товары, тут он говорит, есть ли созданные товары или нет
+@login_required
 def new_product():
     db_session.global_init("db/flea.db")
     db_sess = db_session.create_session()
@@ -105,6 +127,7 @@ def new_product():
 
 
 @app.route('/new', methods=['POST', 'GET'])  # создание товара
+@login_required
 def new():
     form = forms.NewProductForm()
     if form.validate_on_submit():
@@ -125,11 +148,29 @@ def new():
 
 
 @app.route('/box')  # корзина пока не сделана
+@login_required
 def box():
-    return render_template('box.html', category=category)
+    form = forms.LoginForm()
+    try:
+        if form.validate_on_submit():
+            user = db_sess.query(User).filter(User.email == form.email.data).first()
+            if user and user.check_password(form.password.data):
+                login_user(user, remember=form.remember_me.data)
+                return redirect("/")
+    except Exception as e:
+        print(e)
+
+    prod = []
+    for i in db_sess.query(Box).filter(Box.user_id == current_user.id):
+        product = db_sess.query(Product).get(i.product_id)
+        prod.append(product)
+
+    return render_template('box.html', form=form, auth=True, products=prod, base64=base64,
+                           category=category)
 
 
 @app.route('/user-account')  # персональные данные
+@login_required
 def data():
     return render_template('data.html', category=category)
 
@@ -143,19 +184,20 @@ def logout():
 
 @app.route('/merchandise/<int:cat>', methods=['POST', 'GET'])
 def merchandise(cat):
-    print(request.args)
-    if 'product_id' in request.args:
-        box = Box(user_id=current_user.id, product_id=request.args["product_id"])
-        s = db_session.create_session()
-        s.add(box)
-        s.commit()
-        s.close()
-    if 'like_id' in request.args:
-        like = Likes(user_id=current_user.id, product_id=request.args["like_id"])
-        s = db_session.create_session()
-        s.add(like)
-        s.commit()
-        s.close()
+    if request.args:
+        print(request.args)
+        if 'product_id' in request.args:
+            box = Box(user_id=current_user.id, product_id=request.args["product_id"])
+            s = db_session.create_session()
+            s.add(box)
+            s.commit()
+            s.close()
+        if 'like_id' in request.args:
+            like = Likes(user_id=current_user.id, product_id=request.args["like_id"])
+            s = db_session.create_session()
+            s.add(like)
+            s.commit()
+            s.close()
     form = forms.LoginForm()
     try:
         if form.validate_on_submit():
@@ -165,7 +207,6 @@ def merchandise(cat):
                 return redirect("/")
     except Exception as e:
         print(e)
-
 
     prod = 0
     for p in db_sess.query(Product).filter(Product.category_id == cat):

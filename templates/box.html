@@ -1,10 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block content %}
+<h1>Your basket</h1>
+<h3>Products</h3>
+<div class="container">
+    <table class="table">
+        <tbody>
+        {% for item in products%}
+        <tr>
+            <td class="border rounded" style="width: 50%">
+                <img src="data:image/png;base64,{{base64.b64encode(item.photo).decode()}}" width="300" height="300">
+            </td>
+            <td class="border rounded" style="width: 50%"><p>Name - {{item.name_product}}</p>
+                <p>Describe:</p>
+                <p>{{item.describe}}</p>
+                <p>Size - {{item.size}}</p>
+                <p>Price - {{item.price}} rub</p>
 
-</body>
-</html>
+            </td>
+
+        </tr>
+
+        {% endfor %}
+        {% if "product_id" in request.args%}
+        <script>
+                    var myModal = new bootstrap.Modal(document.getElementById('exampleModal{{ request.args["product_id"] }}'), {
+                      keyboard: false
+                    });
+                    myModal.show();
+        </script>
+        {% endif %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+{% block head %}
+{% if not current_user.get_id() %}
+<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+        data-bs-target="{{'#offcanvasRight' if auth else '#ffcanvasRight' }}"
+        aria-controls="offcanvasRight" style="padding: 0px;">
+    <img src="/static/img/1.png" width="50" height="50">
+</button>
+{% else %}
+<a href="/person"><img src="/static/img/1.png" width="50" height="50"></a>
+{% endif %}
+{% endblock %}

@@ -17,11 +17,13 @@
 
 
                 <a href="?product_id={{item.id}}">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal{{ item.id }}"
+                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{ item.id }}"
                             value="{{item.id}}">
                         Добавить в корзину
                     </button>
                 </a>
+                <!-- Button trigger modal -->
+
 
                 <!-- Modal -->
                 <div class="modal" id="exampleModal{{ item.id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -37,10 +39,9 @@
                                 Ваш товар добавлен в корзину , Вы можете перейти в неё и и оплатить
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Понятно</button>
-                                <a href="/box">
-                                    <button type="button" class="btn btn-primary">Перейти в корзину</button>
-                                </a>
+                                <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">Понятно</button>
+                                <a href="/box"><button type="button" class="btn btn-outline-danger">Перейти в корзину</button></a>
+
                             </div>
                         </div>
                     </div>
@@ -103,5 +104,5 @@
 
 {% endblock %}
 {% block plus %}
-<a href="/new"><button type="button">Создать</button></a>
+<a href="/new"><button type="button" class="btn btn-outline-danger">Создать</button></a>
 {% endblock %}

@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% block content %}
 <div class="col-1">
     {%if auth%}
@@ -59,6 +58,7 @@
                 </div>
                 <script>
                     alert("{{ message }}");
+
 
 
                 </script>
@@ -130,13 +130,38 @@
 <div class="col-3">
     <h4>Избранное</h4>
 </div>
-<div class=" col-2">
-<figure><img src="/static/img/fav.png">
-    <figcaption>У вас нет любимых товаров</figcaption>
-</figure>
 
+<div class="col-5">
+    <table class="table">
+        <tbody>
+        {% for item in products%}
+        <tr>
+            <td class="border rounded" style="width: 50%">
+                <img src="data:image/png;base64,{{base64.b64encode(item.photo).decode()}}" width="300" height="300">
+            </td>
+            <td class="border rounded" style="width: 50%">
+                <p>Name - {{item.name_product}}</p>
+                <p>Describe:</p>
+                <p>{{item.describe}}</p>
+                <p>Size - {{item.size}}</p>
+                <p>Price - {{item.price}} rub</p>
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+        {% if "product_id" in request.args%}
+        <script>
+                    var myModal = new bootstrap.Modal(document.getElementById('exampleModal{{ request.args["product_id"] }}'), {
+                      keyboard: false
+                    });
+                    myModal.show();
+        </script>
+        {% endif %}
+        </tbody>
+    </table>
 </div>
-<div class="col-5"></div>
 
 {% endblock %}
 {% block head %}
