@@ -3,6 +3,7 @@ from orm.products import Product
 from orm.category import Category
 from orm.likes import Likes
 from orm.box import Box
+from user_api import user_api
 
 from flask import Flask, render_template, request, redirect
 from orm import db_session
@@ -14,6 +15,7 @@ from password_validator import PasswordValidator
 app = Flask(__name__)
 db_session.global_init("db/flea.db")
 app.config['SECRET_KEY'] = 'блаблабла'
+app.register_blueprint(user_api)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -224,7 +226,16 @@ def new():
 @app.route('/box')  # корзина пока не сделана
 @login_required
 def box():
+    f = int(request.args.get("flag", 0))
+    print(f)
     form = forms.LoginForm()
+
+    if f:
+        products = db_sess.query(Box).filter(Box.user_id == current_user.id).all()
+        for i in products:
+            db_sess.delete(i)
+            db_sess.commit()
+
     try:
         if form.validate_on_submit():
             user = db_sess.query(User).filter(User.email == form.email.data).first()

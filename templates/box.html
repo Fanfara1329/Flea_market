@@ -27,10 +27,52 @@
                       keyboard: false
                     });
                     myModal.show();
+
+
+
+
         </script>
         {% endif %}
         </tbody>
     </table>
+    <a href="?flag=1">
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                data-bs-target="#exampleModal">
+            Купить
+        </button>
+    </a>
+
+    <div class="modal fade" id="exampleMdal" tabindex="-1" aria-labelledby="exampleModalLabel"
+         aria-hidden="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleMdalLabel">Товар(ы) купленн(ы)</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Конгрателатион , вы купитли товар(ы)
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">Понятно
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% if "flag" in request.args%}
+<script>
+                    var myModal = new bootstrap.Modal(document.getElementById('exampleMdal{{ request.args["like_id"] }}'), {
+                      keyboard: false
+                    });
+                    myModal.show();
+
+</script>
+{% endif %}
+
 </div>
 
 {% endblock %}
