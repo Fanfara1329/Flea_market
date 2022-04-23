@@ -127,6 +127,57 @@ def new_product():
     db_session.global_init("db/flea.db")
     db_sess = db_session.create_session()
     pro = []
+    if request.args:
+        if 'product_id' in request.args:
+            box = Box(user_id=current_user.id, product_id=request.args["product_id"])
+            s = db_session.create_session()
+            li = db_sess.query(Box).filter(Box.user_id == current_user.id).all()
+            ids = []
+
+            for i in li:
+                ids.append(i.product_id)
+
+            if len(ids) != 0:
+                if int(request.args['product_id']) in ids:
+                    print('Exist in db')
+                else:
+                    product = s.query(Product).get(int(request.args['product_id']))
+                    product.is_buy = 1
+                    s.add(box)
+                    s.commit()
+                    s.close()
+            else:
+                product = s.query(Product).get(int(request.args['product_id']))
+                product.is_buy = 1
+                s.add(box)
+                s.commit()
+                s.close()
+
+        if 'like_id' in request.args:
+            like = Likes(user_id=current_user.id, product_id=request.args["like_id"])
+            s = db_session.create_session()
+            li = db_sess.query(Likes).filter(Likes.user_id == current_user.id).all()
+            ids = []
+
+            for i in li:
+                ids.append(i.product_id)
+
+            if len(ids) != 0:
+                if int(request.args['like_id']) in ids:
+                    print('Exist in db')
+                else:
+                    product = s.query(Product).get(int(request.args['like_id']))
+                    product.is_likes = 1
+                    s.add(like)
+                    s.commit()
+                    s.close()
+            else:
+                product = s.query(Product).get(int(request.args['like_id']))
+                product.is_likes = 1
+                s.add(like)
+                s.commit()
+                s.close()
+
     for product in db_sess.query(Product).filter(Product.ven_id == current_user.id):
         pro.append(product)
     if len(pro) == 0:
@@ -160,7 +211,8 @@ def new():
                           category_id=form.category.data,
                           photo=image_data,
                           size=form.size.data,
-                          price=form.price.data
+                          price=form.price.data,
+                          is_buy=0, is_likes=0
                           )
         s = db_session.create_session()
         s.add(product)
@@ -205,21 +257,59 @@ def logout():
 
 
 @app.route('/merchandise/<int:cat>', methods=['POST', 'GET'])
+@login_required
 def merchandise(cat):
     if request.args:
-        print(request.args)
         if 'product_id' in request.args:
             box = Box(user_id=current_user.id, product_id=request.args["product_id"])
             s = db_session.create_session()
-            s.add(box)
-            s.commit()
-            s.close()
+            li = db_sess.query(Box).filter(Box.user_id == current_user.id).all()
+            ids = []
+
+            for i in li:
+                ids.append(i.product_id)
+
+            if len(ids) != 0:
+                if int(request.args['product_id']) in ids:
+                    print('Exist in db')
+                else:
+                    product = s.query(Product).get(int(request.args['product_id']))
+                    product.is_buy = 1
+                    s.add(box)
+                    s.commit()
+                    s.close()
+            else:
+                product = s.query(Product).get(int(request.args['product_id']))
+                product.is_buy = 1
+                s.add(box)
+                s.commit()
+                s.close()
+
         if 'like_id' in request.args:
             like = Likes(user_id=current_user.id, product_id=request.args["like_id"])
             s = db_session.create_session()
-            s.add(like)
-            s.commit()
-            s.close()
+            li = db_sess.query(Likes).filter(Likes.user_id == current_user.id).all()
+            ids = []
+
+            for i in li:
+                ids.append(i.product_id)
+
+            if len(ids) != 0:
+                if int(request.args['like_id']) in ids:
+                    print('Exist in db')
+                else:
+                    product = s.query(Product).get(int(request.args['like_id']))
+                    product.is_likes = 1
+                    s.add(like)
+                    s.commit()
+                    s.close()
+            else:
+                product = s.query(Product).get(int(request.args['like_id']))
+                product.is_likes = 1
+                s.add(like)
+                s.commit()
+                s.close()
+
     form = forms.LoginForm()
     try:
         if form.validate_on_submit():

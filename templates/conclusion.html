@@ -16,12 +16,17 @@
                 <p>Price - {{item.price}} rub</p>
 
 
+                {% if item.is_buy == 0 %}
                 <a href="?product_id={{item.id}}">
-                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{ item.id }}"
+                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal{{ item.id }}"
                             value="{{item.id}}">
                         Добавить в корзину
                     </button>
                 </a>
+                {% else%}
+                <h3>In our basket</h3>
+                {% endif %}
                 <!-- Button trigger modal -->
 
 
@@ -47,10 +52,17 @@
                     </div>
                 </div>
 
-                <a href="?like_id={{item.id}}"><button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#exampleMdal{{ item.id }}"
-                        style="padding: 0px;">
-                    <img src="/static/img/2.png" width="50" height="50">
-                </button></a>
+                {% if item.is_likes == 0 %}
+                <a href="?like_id={{item.id}}">
+                    <button class="btn btn-primary" type="button" data-bs-toggle="modal"
+                            data-bs-target="#exampleMdal{{ item.id }}"
+                            style="padding: 0px;">
+                        <img src="/static/img/2.png" width="50" height="50">
+                    </button>
+                </a>
+                {% else %}
+                <h3>You like it</h3>
+                {% endif %}
 
                 <div class="modal fade" id="exampleMdal{{ item.id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
                      aria-hidden="false">
